@@ -18,8 +18,8 @@ project_id= 'b41641f4c8a14ad980981b64a9c53d6d'
 region_name='dallas'
 container_name = 'roopesh_container'
 isExist = False
-path = "E:/WorkSpace/CloudComputing/assignment1-roopesh/sync/"
-temppath="E:/WorkSpace/CloudComputing/assignment1-roopesh/tmp"
+path = "./sync/"
+temppath="./tmp"
 
 #Initialise the connection using object storage credentials
 conn = swiftclient.Connection(key=password,

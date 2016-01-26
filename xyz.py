@@ -1,2 +1,0 @@
-execfile("abc.py")
-add()

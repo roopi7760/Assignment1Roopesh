@@ -11,12 +11,7 @@ import tempfile
 import shutil
 
 #variables
-auth_url = 'https://identity.open.softlayer.com/v3'
-user_id = 'cf213672afc14cebb9010ed58aadabf9'
-password = 'x*6VJe=jW8pvYX!b'
-project_id= 'b41641f4c8a14ad980981b64a9c53d6d'
-region_name='dallas'
-container_name = 'roopesh_container'
+
 isExist = False
 path = "./sync/"
 temppath="./tmp"
@@ -32,7 +27,7 @@ os_options={"project_id": project_id,
 
 #initialise the gnupg home directory and generate the input key
 mypassphrase = "my passphrase"
-recipient = "kroopeshkumar@yahoo.com"
+recipient =
 gpg = gnupg.GPG(gnupghome='./gnupg')
 input_data = gpg.gen_key_input(name_email=recipient, passphrase=mypassphrase)
 key = gpg.gen_key(input_data)
@@ -65,9 +60,9 @@ def pushObjects(container_name):
 
 #function to decrypt the data: Takes two parameter which are data to decrypt and file name to write the decrypted data. Does not return anything
 def decryptFile(decryptData,fileName):
-    encryptedData = gpg.decrypt(decryptData,passphrase = mypassphrase)
+    decryptedData = gpg.decrypt(decryptData,passphrase = mypassphrase)
     with open(path+fileName,"wb") as newFile:
-        newFile.write(str(encryptedData))
+        newFile.write(str(decryptedData))
         newFile.close()
 #End of function decryptFile()
 
@@ -96,29 +91,33 @@ def encryptFiles():
 def listFiles(container_name):
     for container in conn.get_account()[1]:
         print "List of objects in the container " + container['name'] + "\n"
-        for data in conn.get_container(container['name'])[1]:
-            print data['name']
+        #for data in conn.get_container(container['name'])[1]:
+        data1 = conn.get_object(container_name,"names.txt")
+        print data1
 #end of function listFiles
 
 def createContainer():
-    for container in conn.get_account()[1]:
-        if container['name'] == 'roopesh_container':
-            isExist = True
+    #for container in conn.get_account()[1]:
+     #   if container['name'] == 'roopesh_container':
+          #  isExist = True
 
-    if isExist == False :
+   # if isExist == False :
         conn.put_container(container_name)
         print "Container %s created successfully." % container_name + "\n"
-    else:
-        print "Container " + container_name + " exist\n"
+   # else:
+        #print "Container " + container_name + " exist\n"
 #End of function createContainer()
 
 #Main Function
 def main():
     #creating a container if none exist: executes only once
-    createContainer()
+    #createContainer()
     encryptFiles()
     listFiles(container_name)
     pullObjects(container_name)
+
+   # names = conn.get_object(container_name, 'names.txt')
+    #print names
 #end of function main()
 
 #program execution starts here
